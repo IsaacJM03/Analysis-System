@@ -17,8 +17,8 @@ def main():
                             read_from_stub=True,
                             stub_path='Analysis-System/stubs/track_stubs.pk1')
   
-  # interpolate ball positions
-  tracks['ball'] = tracker.interpolate_ball_positions(tracks['ball'])
+  # get object positions
+  tracker.add_position_to_tracks(tracks)
 
   # camera movement estimation
   camera_movement_estimator = CameraMovementEstimator(video_frames[0])
@@ -28,7 +28,10 @@ def main():
     stub_path='Analysis-System/stubs/camera_movement_stubs.pk1'
   )
 
+  camera_movement_estimator.adjust_postions_to_tracks(tracks,camera_movement_per_frame)
   
+  # interpolate ball positions
+  tracks['ball'] = tracker.interpolate_ball_positions(tracks['ball'])
   # assign player teams
 
   team_assigner = TeamAssigner()
